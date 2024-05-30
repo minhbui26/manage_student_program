@@ -1,10 +1,10 @@
-#bản giao diện cũ
 import csv
 import tkinter as tk
 from tkinter import messagebox, simpledialog
 
-FILENAME = 'class_list.csv'
+FILENAME = 'Danh_sach.csv'
 
+# Load students from the CSV file
 def load_students():
     students = []
     try:
@@ -15,20 +15,22 @@ def load_students():
                 row['total_score'] = float(row['total_score'])
                 students.append(row)
     except FileNotFoundError:
-        with open(FILENAME, mode='w', newline='') as file:
+        with open(FILENAME, encoding='utf-8', mode='w', newline='') as file:
             fieldnames = ['student_code', 'student_name', 'total_score']
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             writer.writeheader()
     return students
 
+# Save students to the CSV file
 def save_students(students):
-    with open(FILENAME, mode='w', newline='') as file:
+    with open(FILENAME, encoding='utf-8', mode='w', newline='') as file:
         fieldnames = ['student_code', 'student_name', 'total_score']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         for student in students:
             writer.writerow(student)
 
+# Input an integer with validation
 def input_integer(prompt):
     while True:
         try:
@@ -37,6 +39,7 @@ def input_integer(prompt):
         except (ValueError, TypeError):
             messagebox.showerror("Invalid input", "Please enter an integer.")
 
+# Input a float with validation
 def input_float(prompt):
     while True:
         try:
@@ -45,6 +48,7 @@ def input_float(prompt):
         except (ValueError, TypeError):
             messagebox.showerror("Invalid input", "Please enter a float number.")
 
+# Add a new student
 def add_student(students):
     student_code = input_integer("Enter student code: ")
     student_name = simpledialog.askstring("Input", "Enter student name: ")
@@ -53,6 +57,7 @@ def add_student(students):
     save_students(students)
     messagebox.showinfo("Info", "Student added successfully.")
 
+# Edit an existing student
 def edit_student(students):
     student_code = input_integer("Enter student code to edit: ")
     for student in students:
@@ -65,6 +70,7 @@ def edit_student(students):
             return
     messagebox.showerror("Error", "Student not found.")
 
+# Delete a student
 def delete_student(students):
     student_code = input_integer("Enter student code to delete: ")
     for student in students:
@@ -75,25 +81,23 @@ def delete_student(students):
             return
     messagebox.showerror("Error", "Student not found.")
 
+# Search for students
 def search_students(students):
-    criterion = simpledialog.askstring("Input", "Search by (code/name/score): ").strip().lower()
-    query = simpledialog.askstring("Input", "Enter search value: ").strip()
-    if criterion == 'code':
-        query = int(query)
-    elif criterion == 'score':
-        query = float(query)
-
-    results = [student for student in students if str(student[criterion]) == str(query)]
-    result_text = "\n".join(f"Code: {student['student_code']}, Name: {student['student_name']}, Score: {student['total_score']}" for student in results)
-    if result_text:
+    student_code = input_integer("Enter student code to search: ")
+    results = [student for student in students if student['student_code'] == student_code]
+    if results:
+        student = results[0]
+        result_text = f"Code: {student['student_code']}, Name: {student['student_name']}, Score: {student['total_score']}"
         messagebox.showinfo("Search Results", result_text)
     else:
         messagebox.showinfo("Search Results", "No matching students found.")
 
+# Print all students
 def print_students(students):
     result_text = "\n".join(f"Code: {student['student_code']}, Name: {student['student_name']}, Score: {student['total_score']}" for student in students)
     messagebox.showinfo("All Students", result_text)
 
+# Main function to run the application
 def main():
     students = load_students()
 
