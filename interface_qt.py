@@ -7,7 +7,7 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QTableWidgetItem
 import sys
 
-CSV_FILE = 'students.csv'  # Tên file CSV để lưu dữ liệu học sinh
+CSV_FILE = 'class_list.csv'  # Tên file CSV để lưu dữ liệu học sinh
 
 
 class StudentManagementApp(QMainWindow):
@@ -33,7 +33,7 @@ class StudentManagementApp(QMainWindow):
                     }
         except FileNotFoundError:
             print(
-                f"{CSV_FILE} not found, starting with an empty student list.")  # Nếu không tìm thấy file, bắt đầu với danh sách học sinh trống
+                f"{CSV_FILE} not found, starting with a new class list.")  # Nếu không tìm thấy file, tạo một danh sách mới
         return students
 
     def save_students(self):
@@ -49,7 +49,7 @@ class StudentManagementApp(QMainWindow):
         self.note_label = QtWidgets.QLabel(self)
         self.note_label.setText(
             "Note:\n1. Student code must include 8 numbers.\n2. Total score is less than 4.0.\n3. In the Edit student section, please enter the correct student code to change the name and total score.")
-        self.note_label.setStyleSheet("color: red;")
+        self.note_label.setStyleSheet("color: red;") #cài đặt màu cho chữ
         self.note_label.setGeometry(10, 10, 800, 60)
 
         self.tab_widget = QtWidgets.QTabWidget(self)
@@ -101,16 +101,14 @@ class StudentManagementApp(QMainWindow):
     def add_student(self):
         student_code = self.add_student_code_input.text()
         if not student_code.isdigit() or len(student_code) != 8:
-            QMessageBox.critical(self, "Error",
-                                 "Student code must be exactly 8 numbers.")  # Kiểm tra mã học sinh phải là 8 số
+            QMessageBox.critical(self, "Error","Student code must be exactly 8 numbers.")  # Kiểm tra mã học sinh phải là 8 số
             return
         student_code = int(student_code)
         student_name = self.add_student_name_input.text()
         try:
             total_score = float(self.add_total_score_input.text())
             if total_score > 4:
-                QMessageBox.critical(self, "Error",
-                                     "Total score cannot be greater than 4.")  # Kiểm tra điểm tổng không được lớn hơn 4
+                QMessageBox.critical(self, "Error", "Total score cannot be greater than 4.")  # Kiểm tra điểm tổng không được lớn hơn 4
                 return
         except ValueError:
             QMessageBox.critical(self, "Error", "Total score must be a number.")  # Kiểm tra điểm tổng phải là số
@@ -170,8 +168,7 @@ class StudentManagementApp(QMainWindow):
             return
         self.students[student_code] = {'student_name': student_name, 'total_score': total_score}
         self.save_students()
-        QMessageBox.information(self, "Success",
-                                "Student edited successfully.")  # Thông báo chỉnh sửa học sinh thành công
+        QMessageBox.information(self, "Success", "Student edited successfully.")  # Thông báo chỉnh sửa học sinh thành công
         self.edit_student_code_input.clear()
         self.edit_student_name_input.clear()
         self.edit_total_score_input.clear()
@@ -194,15 +191,13 @@ class StudentManagementApp(QMainWindow):
     def delete_student(self):
         student_code = self.delete_student_code_input.text()
         if not student_code.isdigit() or len(student_code) != 8:
-            QMessageBox.critical(self, "Error",
-                                 "Student code must be exactly 8 numbers.")  # Kiểm tra mã học sinh phải là 8 số
+            QMessageBox.critical(self, "Error", "Student code must be exactly 8 numbers.")  # Kiểm tra mã học sinh phải là 8 số
             return
         student_code = int(student_code)
         if student_code in self.students:
             del self.students[student_code]
             self.save_students()
-            QMessageBox.information(self, "Success",
-                                    f"Student with code {student_code} has been deleted.")  # Thông báo xóa học sinh thành công
+            QMessageBox.information(self, "Success",f"Student with code {student_code} has been deleted.")  # Thông báo xóa học sinh thành công
         else:
             QMessageBox.critical(self, "Error", "Student code not found.")  # Kiểm tra mã học sinh phải tồn tại
         self.delete_student_code_input.clear()

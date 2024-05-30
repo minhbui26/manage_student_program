@@ -7,7 +7,7 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QTableWidgetItem
 import sys
 
-CSV_FILE = 'students.csv'  # Tên file CSV để lưu dữ liệu học sinh
+CSV_FILE = 'student.csv'  # Tên file CSV để lưu dữ liệu học sinh
 
 
 class StudentManagementApp(QMainWindow):
@@ -23,7 +23,7 @@ class StudentManagementApp(QMainWindow):
     def load_students(self):
         students = {}
         try:
-            with open(CSV_FILE, mode='r', newline='') as file:
+            with open(CSV_FILE, encoding='utf-8', mode='r', newline='') as file:
                 reader = csv.DictReader(file)
                 for row in reader:
                     student_code = int(row['student_code'])

@@ -3,12 +3,12 @@ import csv
 import tkinter as tk
 from tkinter import messagebox, simpledialog
 
-FILENAME = 'student.csv'
+FILENAME = 'class_list.csv'
 
 def load_students():
     students = []
     try:
-        with open(FILENAME, mode='r') as file:
+        with open(FILENAME, encoding='utf-8', mode='r') as file:
             reader = csv.DictReader(file)
             for row in reader:
                 row['student_code'] = int(row['student_code'])

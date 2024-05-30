@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext
 
-CSV_FILE = 'students.csv'
+CSV_FILE = 'class_list.csv'
 
 def load_students():
     students = {}
@@ -17,7 +17,7 @@ def load_students():
                     'total_score': float(row['total_score'])
                 }
     except FileNotFoundError:
-        print(f"{CSV_FILE} not found, starting with an empty student list.")
+        print(f"{CSV_FILE} not found, starting with a new emty class list.")
     return students
 
 def save_students(students):
