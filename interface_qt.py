@@ -1,3 +1,4 @@
+# bản chính để nộp
 # để chạy chương trình hãy tải thư viện pyqt5 chạy câu lệnh sau ở terminal
 # pip install pyqt5
 
